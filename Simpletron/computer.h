@@ -2,7 +2,7 @@
  * Nome do arquivo: computer.h
  * Autor: Isaque Gabriel
  * Data de criação: quarta-feira, 21 de junho de 2023, 23:30:25
- * Descrição: Arquivo de cabeçalho responsável por inicializar funções utilizadas no arquivos principal e estruturadas no arquivo "computer.c".
+ * Descrição: Arquivo de cabeçalho responsável por prototipar funções utilizadas no arquivos principal e inicializadas no arquivo "computer.c".
  ******************************************************/
 
 #include <stdio.h>

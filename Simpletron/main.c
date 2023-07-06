@@ -23,8 +23,11 @@ int main()
         OperationCode -> Variável responsável por Armazenar o Código de Operação da Instrução
         Operand -> Variável responsável por Armazenar os últimos dois dígitos da instrução
         Error -> Variável usada para evitar erros durante alguma execução errada do programa.
-        Accumulator -> 
-        InstructionRegister
+        Accumulator ->  Variável usada para ser o Acumulador do Simpletron
+        InstructionRegister -> Variável Auxiliar que recebe as instruções armazenadas na memória
+
+        OBS:
+        unsigned é um qualificador para variáveis com o intuito de evitar que as mesmas recebam valores com sinais negativos.
     */
     int Word;
     int Memory[100];
