@@ -296,6 +296,8 @@ void PrintMemory( int MemoryVar[], short *AccumulatorVar, unsigned short *Counte
     printf("RegistroInstrucao %+05d\n", *RegisterVar);
     printf("CodigoOperacao %02d\n", *CodeVar);
     printf("Operando %02d\n\n", *OperandVar);
+
+    int *ArrayPtr = MemoryVar;
     
     printf("MEMORIA:\n\n");
     printf("            0      1      2      3      4      5      6      7      8      9\n");
@@ -304,7 +306,7 @@ void PrintMemory( int MemoryVar[], short *AccumulatorVar, unsigned short *Counte
         printf("%02d      ", 10 * i);
         for (int j = 0; j < 10; j++)
         {
-           printf("%+05d  ", MemoryVar[(10 * i + j)] % 10000);
+           printf("%+05d  ", *(ArrayPtr++) % 10000);
         }
         printf("\n");
     }
