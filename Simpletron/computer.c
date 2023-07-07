@@ -140,6 +140,14 @@ void ProgramExecution( int MemoryVar[], unsigned short *CodeVar, int *TemporaryV
             case STORE:
                 MemoryVar[*OperandVar] = *AccumulatorVar;
                 break;
+
+            /*
+                Caso - Somar
+
+                - Utiliza uma variável temporária parar somar o valor presente no acumulador com o valor armazenado na memória
+                - Verifica se o valor na variável está dentro do intervalo descrito na condição
+                - Caso passe na verificação, armazena no Acumulador o resultado da soma.
+            */
             
             case ADD:
                 *TemporaryVar = *AccumulatorVar + MemoryVar[*OperandVar];
@@ -152,6 +160,14 @@ void ProgramExecution( int MemoryVar[], unsigned short *CodeVar, int *TemporaryV
                 
                 *AccumulatorVar = *TemporaryVar;
                 break;
+
+            /*
+                Caso - Subtrair
+
+                - Utiliza uma variável temporária parar subtrair o valor presente no acumulador com o valor armazenado na memória
+                - Verifica se o valor na variável está dentro do intervalo descrito na condição
+                - Caso passe na verificação, armazena no Acumulador o resultado da subtração.
+            */
                 
             case SUBTRACT:
                 *TemporaryVar = *AccumulatorVar - MemoryVar[*OperandVar];
@@ -164,6 +180,16 @@ void ProgramExecution( int MemoryVar[], unsigned short *CodeVar, int *TemporaryV
                 
                 *AccumulatorVar = *TemporaryVar;
                 break;
+
+            /*
+                Caso - Dividir
+
+                - Verifica se o valor do acumulador é zero, caso seja não permite a divisão por zero.
+                - Caso passe na verificação, armazena no Acumulador o resultado da divisão.
+
+                OBS:
+                    - Variável temporária não foi usada pois como só a necessidade de verificar se o acumulador é zero não se tem a necessidade de usá-la.
+            */
                 
             case DIVIDE:
                 if (*AccumulatorVar == 0)
@@ -175,6 +201,14 @@ void ProgramExecution( int MemoryVar[], unsigned short *CodeVar, int *TemporaryV
 
                 *AccumulatorVar = MemoryVar[*OperandVar] / *AccumulatorVar;
                 break;
+
+            /*
+                Caso - Multiplicar
+
+                - Utiliza uma variável temporária parar multiplicar o valor presente no acumulador com o valor armazenado na memória.
+                - Verifica se o valor na variável está dentro do intervalo descrito na condição
+                - Caso passe na verificação, armazena no Acumulador o resultado da multiplicação.
+            */
             
             case MULTIPLY:
                 *TemporaryVar = *AccumulatorVar * MemoryVar[*OperandVar];
@@ -188,11 +222,21 @@ void ProgramExecution( int MemoryVar[], unsigned short *CodeVar, int *TemporaryV
                 
                 *AccumulatorVar = *TemporaryVar;
                 break;
-                
+            
+            /*
+                Caso - Desvio
+                - Desvia o programa para o local de memória indicado
+                    + EX.: 4009 -> Desvia o programa para o local 09 da memória
+            */
             case BRANCH:
                 *CounterVar = *OperandVar - 1;
                 break;
-                
+            
+            /*
+                Caso - Desvio Negativo
+                - Desvia o programa para o local de memória indicado, se e somente se, o ACUMULADOR, for menor que zero
+                    + EX.: 4109 -> Desvia o programa para o local 09 da memória caso o valor armazenado no ACUMULADOR seja menor que zero.
+            */
             case BRANCHNEG:
                 if (*AccumulatorVar < 0)
                 {
@@ -200,12 +244,27 @@ void ProgramExecution( int MemoryVar[], unsigned short *CodeVar, int *TemporaryV
                 }
                 break;
             
+            /*
+                Caso - Desvio De Zero
+                - Desvia o programa para o local de memória indicado, se e somente se, o ACUMULADOR, for igual a zero
+                    + EX.: 4209 -> Desvia o programa para o local 09 da memória caso o valor armazenado no ACUMULADOR seja igual a zero.
+            */
+            
             case BRANCHZERO:
                 if (*AccumulatorVar == 0)
                 {
                     *CounterVar = *OperandVar - 1;
                 }
                 break;
+            
+            /*
+                Caso - Parar
+                - Terminar as instruções
+                    + Error recebe 1 que ao chega no laço de repetição irá indicar 0 já que:
+                        * "!Error" -> Ou seja o inverso de erro
+                            - Quando Erro for 1 no loop será 0 
+                            - Quando Erro for 0 no loop será 1
+            */
                 
             case HALT:
                 *ErrorVar = 1;
@@ -216,6 +275,18 @@ void ProgramExecution( int MemoryVar[], unsigned short *CodeVar, int *TemporaryV
 
 /*
     Função - PrintMemory()
+    - Responsável por Imprimir a tela de despejo da memória
+
+    OBS: 
+    - %0xd limita a quantidade de dígitos será impresso na tela
+    - Explicando o FOR:
+        - Considere o primeiro Laço FOR (int i = 0)
+            + printf("%+05d  ", MemoryVar[(10 * 0 + 0)] % 10000); -> MemoryVar[0]
+            + printf("%+05d  ", MemoryVar[(10 * 0 + 1)] % 10000); -> MemoryVar[1]
+            + ...
+        - "i" é a Linha da memória enquanto "j" é a coluna.
+        - %10000 é usado para extrair um valor menor dos lixos de memória gerados pelos espaços não usados e garantir um padrão de números na hora de imprimir.
+        
 */
 void PrintMemory( int MemoryVar[], short *AccumulatorVar, unsigned short *CounterVar, short *RegisterVar, unsigned short *CodeVar, unsigned short *OperandVar )
 {
