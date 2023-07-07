@@ -280,11 +280,8 @@ void ProgramExecution( int MemoryVar[], unsigned short *CodeVar, int *TemporaryV
     OBS: 
     - %0xd limita a quantidade de dígitos será impresso na tela
     - Explicando o FOR:
-        - Considere o primeiro Laço FOR (int i = 0)
-            + printf("%+05d  ", MemoryVar[(10 * 0 + 0)] % 10000); -> MemoryVar[0]
-            + printf("%+05d  ", MemoryVar[(10 * 0 + 1)] % 10000); -> MemoryVar[1]
-            + ...
-        - "i" é a Linha da memória enquanto "j" é a coluna.
+        - int *ArrayPtr = MemoryVar; -> Cria um ponteiro que aponta pra um ARRAY
+        - *(ArrayPtr++) -> Desferecia o ponteiro e incrementa para acessar todos os elementos da array avançando o ponteiro para o próximo elemento.
         - %10000 é usado para extrair um valor menor dos lixos de memória gerados pelos espaços não usados e garantir um padrão de números na hora de imprimir.
         
 */
